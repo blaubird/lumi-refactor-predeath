@@ -4,7 +4,7 @@
     "builder": "NIXPACKS",
     "nixpacksConfig": {
       "startCommand": "cd api && hypercorn main:app --bind 0.0.0.0:$PORT",
-      "installCommand": "pip install --upgrade pip && pip install -r api/requirements.txt"
+      "installCommand": "pip install --upgrade pip pip-tools && pip-compile requirements.in -o requirements.txt --resolver=backtracking && pip install -r requirements.txt"
     }
   },
   "deploy": {
@@ -14,3 +14,6 @@
     "restartPolicyMaxRetries": 10
   }
 }
+
+
+
