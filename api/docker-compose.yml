@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - WH_TOKEN=${WH_TOKEN}
+    depends_on:
+      - db
+    command: bash -c "python scripts/setup_db.py && hypercorn main:app --bind 0.0.0.0:8000"
+
+  db:
+    image: ankane/pgvector:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=B-p5_Xmn72fMe9J4gGHLlZVawpqZ8FWr
+      - POSTGRES_DB=railway
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
